@@ -1,0 +1,135 @@
+<div class="jumbotron">
+  <div ng-show="state == 'Dashboard'">
+    <h1>DevilScoutz Dashboard</h1>
+    <button type="button" ng-click="state='Scouting'" class="btn btn-primary btn-lg btn-block">Scout Match</button>
+    <button type="button" ng-click="state='History'" class="btn btn-success btn-lg btn-block">Match History</button>
+    <button type="button" ng-click="state='Database'" class="btn btn-danger btn-lg btn-block">View Database</button>
+  </div>
+
+  <div ng-show="state == 'History'">
+    <h1>Match History</h1>
+    <input type="text" ng-model="searchText" class="form-control">
+    <br>
+    <table class="table table-striped">
+      <tr>
+        <th>Match</th>
+        <th>Team</th>
+        <th>Synced</th>
+      </tr>
+      <tr ng-repeat="match in matches | filter:searchText">
+        <td>{{match.matchNum}}</td>
+        <td>{{match.teamNum}}</td>
+        <td>{{match.synced}}</td>
+      </tr>
+    </table>
+
+    <button type="button" ng-click="sync()" class="btn btn-danger btn-lg btn-block">Sync</button>
+
+    <button type="button" ng-click="state='Dashboard'" class="btn btn-primary btn-lg btn-block">Back</button>
+  </div>
+
+  <div ng-show="state == 'Database'">
+    <h1>Database</h1>
+
+    <input type="text" ng-model="searchText" class="form-control">
+    <br>
+    <table class="table table-striped">
+      <tr>
+        <th>Match</th>
+        <th>Team</th>
+        <th>Alliance</th>
+      </tr>
+      <tr ng-repeat="databaseMatch in databaseMatches | filter:searchText">
+        <td>{{databaseMatch.matchNum}}</td>
+        <td>{{databaseMatch.teamNum}}</td>
+        <td>{{databaseMatch.alliance}}</td>
+      </tr>
+    </table>
+
+    <button type="button" ng-click = "pullData()" class="btn btn-danger btn-lg btn-block">Update</button>
+
+    <button type="button" ng-click="state='Dashboard'" class="btn btn-primary btn-lg btn-block">Back</button>
+
+  </div>
+
+  <div ng-show="state == 'Scouting'">
+    <h1>Scout Match</h1>
+    <h2>Match Number</h2>
+
+    <input type="text" ng-model="matchNum" class="form-control">
+
+    <h2>Team Number</h2>
+    <input type="text" ng-model="teamNum" class="form-control">
+
+    <h2>Alliance: {{alliance}}</h2>
+
+    <div class="btn-group">
+      <button type="button" ng-click="selectAlliance(1)" ng-model="data.redTeam" class="btn btn-danger btn-lg">Red</button>
+      <button type="button" ng-click="selectAlliance(2)" ng-model="data.blueTeam" class="btn btn-primary btn-lg">Blue</button>
+    </div>
+
+    <br>
+
+    <h1>Autonomous</h1>
+
+    <h3>High Goal: {{autoHighGoalCount}}</h3>
+
+    <div class="btn-group">
+      <button type="button" ng-click="decreaseAutoHighGoalCount()" class="btn btn-danger btn-lg">-</button>
+      <button type="button" ng-click="increaseAutoHighGoalCount()" class="btn btn-success btn-lg">+</button>
+    </div>
+    <h3>Low Goal: {{autoLowGoalCount}}</h3>
+
+    <div class="btn-group">
+      <button type="button" ng-click="decreaseAutoLowGoalCount()" class="btn btn-danger btn-lg">-</button>
+      <button type="button" ng-click="increaseAutoLowGoalCount()" class="btn btn-success btn-lg">+</button>
+    </div>
+    <h3>Hot Goal: {{autoHotGoalCount}}</h3>
+
+    <div class="btn-group">
+      <button type="button" ng-click="decreaseAutoHotGoalCount()" class="btn btn-danger btn-lg">-</button>
+      <button type="button" ng-click="increaseAutoHotGoalCount()" class="btn btn-success btn-lg">+</button>
+    </div>
+
+    <br>
+
+    <h1>Teleop</h1>
+
+    <h3>Assists:  {{teleAssistCount}}</h3>
+
+    <div class="btn-group">
+      <button type="button" ng-click="decreaseTeleAssistCount()" class="btn btn-danger btn-lg">-</button>
+      <button type="button" ng-click="increaseTeleAssistCount()" class="btn btn-success btn-lg">+</button>
+    </div>
+    <h3>High Goals:  {{teleHighGoalCount}}</h3>
+
+    <div class="btn-group">
+      <button type="button" ng-click="decreaseTeleHighGoalCount()" class="btn btn-danger btn-lg">-</button>
+      <button type="button" ng-click="increaseTeleHighGoalCount()" class="btn btn-success btn-lg">+</button>
+    </div>
+    <h3>Low Goals: {{teleLowGoalCount}}</h3>
+
+    <div class="btn-group">
+      <button type="button" ng-click="decreaseTeleLowGoalCount()" class="btn btn-danger btn-lg">-</button>
+      <button type="button" ng-click="increaseTeleLowGoalCount()" class="btn btn-success btn-lg">+</button>
+    </div>
+    <h3>Truss:  {{trussCount}}</h3>
+
+    <div class="btn-group">
+      <button type="button" ng-click="decreaseTrussCount()" class="btn btn-danger btn-lg">-</button>
+      <button type="button" ng-click="increaseTrussCount()" class="btn btn-success btn-lg">+</button>
+    </div>
+    <h3>Catch:  {{catchCount}}</h3>
+
+    <div class="btn-group">
+      <button type="button" ng-click="decreaseCatchCount()" class="btn btn-danger btn-lg">-</button>
+      <button type="button" ng-click="increaseCatchCount()" class="btn btn-success btn-lg">+</button>
+    </div>
+
+    <h3>Comments</h3>
+    <textarea class="form-control" rows="3" ng-model="matchComment"></textarea>
+    <br>
+    <button type="button" ng-click="save()" class="btn btn-danger btn-lg btn-block">Save</button>
+    <button type="button" ng-click="state='Dashboard'" class="btn btn-primary btn-lg btn-block">Back</button>
+  </div>
+</div>
