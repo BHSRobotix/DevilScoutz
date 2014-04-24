@@ -3,8 +3,8 @@
 angular.module('devilScoutzApp')
   .controller('MainCtrl', function ($scope) {
     
-	$scope.state = 'Dashboard';
-  
+    $scope.state = "Dashboard";
+
     //This array holds all our data we collect over time
     $scope.matches = [
       {matchNum:0, 
@@ -55,8 +55,9 @@ angular.module('devilScoutzApp')
     $scope.matchComment = "";
 
     //Appends current match data into our match history array
-    $scope.save = function() {
-      $scope.state = 'Dashboard';
+    $scope.saveMatch = function() {
+
+      $scope.state = "Dashboard";
 
       $scope.matches.push({matchNum:$scope.matchNum, 
                            teamNum:$scope.teamNum, 
@@ -71,19 +72,20 @@ angular.module('devilScoutzApp')
                            catchCount:$scope.catchCount,
                            matchComment:$scope.matchComment,
                            synced:false});
+
+      $scope.matchNum = 0;
+      $scope.teamNum = 0;
+      $scope.alliance = 0;
+      $scope.autoHighGoalCount = 0;
+      $scope.autoLowGoalCount = 0;
+      $scope.autoHotGoalCount = 0;
+      $scope.teleAssistCount = 0;
+      $scope.teleHighGoalCount = 0;
+      $scope.teleLowGoalCount = 0;
+      $scope.trussCount = 0;
+      $scope.catchCount = 0;
+      $scope.matchComment = "";
       
-        $scope.matchNum = 0;
-	    $scope.teamNum = 0;
-	    $scope.alliance = 0;
-	    $scope.autoHighGoalCount = 0;
-	    $scope.autoLowGoalCount = 0;
-	    $scope.autoHotGoalCount = 0;
-	    $scope.teleAssistCount = 0;
-	    $scope.teleHighGoalCount = 0;
-	    $scope.teleLowGoalCount = 0;
-	    $scope.trussCount = 0;
-	    $scope.catchCount = 0;
-	    $scope.matchComment = "";
     };
 
     //Helper function to refresh ng-repeat when array updates

@@ -81,3 +81,8 @@ body {
 .table th, td {
    text-align: center;   
 }
+
+hr {
+  border-color: #333333;
+  border-width: 1px 0;
+}
