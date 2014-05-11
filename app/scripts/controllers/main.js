@@ -138,37 +138,54 @@ angular.module('devilScoutzApp')
     };
 
     //Pull data
+    //Here it is tricky because we cant pull all items from Parse.com at once, there is a request limit of 100 items in a query.
+    //We can get around this by finding out how many items there are total, and doing multiple, smaller sized requests. 
     $scope.pullData = function () {
+      $scope.databaseMatches.length = 0;
       var ScoutingData = Parse.Object.extend("Teams");
       var query = new Parse.Query(ScoutingData);
       query.notEqualTo("teamNum", 0);
-      query.find({
-        success: function(results) {
-          alert("Successfully retrieved " + results.length + " matches.");
-          // Do something with the returned Parse.Object values
-            $scope.databaseMatches.length = 0;
-          for (var i = 0; i < results.length; i++) { 
-            var object = results[i];
-            $scope.databaseMatches.push({matchNum:object.get("matchNum"), 
-                           teamNum:object.get("teamNum"), 
-                           alliance:object.get("alliance"),
-                           autoHighGoalCount:object.get("autoHighGoal"),
-                           autoLowGoalCount:object.get("autoLowGoal"),
-                           autoHotGoalCount:object.get("autoHighGoal"),
-                           teleAssistCount:object.get("teleAssistCount"),
-                           teleHighGoalCount:object.get("teleHighGoal"),
-                           teleLowGoalCount:object.get("teleLowGoal"), 
-                           trussCount:object.get("trussCount"), 
-                           catchCount:object.get("catchCount"),
-                           matchComment:object.get("comment")});
-          }
-          if ($scope.$$phase) {
-              applyFn();
-          } else {
-              $scope.$apply(applyFn);
-          }
-        }, error: function(error) {
-          alert("Unable to retrieve matches. Make sure you are connected to the internet");
+      var numIterations = 0; //We need to count the number of times we are going to iterate in the loop.
+      query.count({ //Get a count of the total number of items in the database.
+        success: function(count) {
+          numIterations = Math.ceil(count / 90);
+          for (var i = 0; i < numIterations; i++) {
+              query = new Parse.Query(ScoutingData);
+              query.notEqualTo("teamNum", 0);
+              query.lessThan("matchNum", 16 + i*15); //Here we are getting a range between 15 match numbers, allowing for a max of 90 matches in one request
+              query.greaterThan("matchNum", 0 + i*15); //Example, lessThan(30) and greaterThan(15).
+
+              query.find({
+                success: function(results) {
+                  // Do something with the returned Parse.Object values
+                  for (var i = 0; i < results.length; i++) { 
+                    var object = results[i];
+                    $scope.databaseMatches.push({matchNum:object.get("matchNum"), 
+                                   teamNum:object.get("teamNum"), 
+                                   alliance:object.get("alliance"),
+                                   autoHighGoalCount:object.get("autoHighGoal"),
+                                   autoLowGoalCount:object.get("autoLowGoal"),
+                                   autoHotGoalCount:object.get("autoHighGoal"),
+                                   teleAssistCount:object.get("assists"),
+                                   teleHighGoalCount:object.get("teleHighGoal"),
+                                   teleLowGoalCount:object.get("teleLowGoal"), 
+                                   trussCount:object.get("truss"), 
+                                   catchCount:object.get("catch"),
+                                   matchComment:object.get("comment")});
+                  }
+                  if ($scope.$$phase) {
+                      applyFn();
+                  } else {
+                      $scope.$apply(applyFn);
+                  }
+                }, error: function(error) {
+                  alert("Unable to retrieve matches. Make sure you are connected to the internet");
+                }
+              });
+            }
+        },
+        error: function(error) {
+          // The request to get the count of items failed
         }
       });
     };

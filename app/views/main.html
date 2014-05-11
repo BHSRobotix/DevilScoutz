@@ -2,21 +2,52 @@
 
   <div ng-show="state == 'Dashboard'">
     <h1>DevilScoutz Dashboard</h1>
-    <button type="button" ng-click="state='Scouting'" class="btn btn-primary btn-lg btn-block">Scout Match</button>
-    <button type="button" ng-click="state='History'" class="btn btn-success btn-lg btn-block">Match History</button>
-    <button type="button" ng-click="state='Database'" class="btn btn-danger btn-lg btn-block">View Database</button>
+
+    <button type="button" ng-click="state='Scouting'" class="btn btn-primary btn-block">Scout Match</button>
+
+    <button type="button" ng-click="state='History'" class="btn btn-success btn-block">Match History</button>
+
+    <button type="button" ng-click="state='Database'" class="btn btn-danger btn-block">View Database</button>
+
+    <button type="button" data-toggle="modal" data-target=".bs-example-modal-lg" class="btn btn-info btn-block">About DevilScoutz</button>
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">About DevilScoutz</h4>
+          </div>
+          <div class="modal-body">
+            DevilScoutz is web scouting application for FRC competitions created by Team 2876. The application was developed using
+            <a href="https://angularjs.org/" target="_blank">AngularJS</a>
+            and uses
+            <a href="https://parse.com/" target="_blank">Parse</a>
+            to store the data online. We also use
+            <a href="http://yeoman.io/" target="_blank">Yeoman</a>
+            to handle our workflow and the project is available on
+            <a href="https://github.com/BHSRobotix/DevilScoutz" target="_blank">Github</a>
+            .
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div ng-show="state == 'Scouting'">
     <h1>Scout Match</h1>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-sm-6">
         <h2>Match Number</h2>
         <div class="text-center">
           <input type="text" ng-model="matchNum" class="form-control"></div>
       </div>
-      <div class="col-md-6">
+      <div class="col-sm-6">
         <h2>Team Number</h2>
         <input type="text" ng-model="teamNum" class="form-control"></div>
     </div>
@@ -33,14 +64,14 @@
     <h1>Autonomous</h1>
 
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <h3>High Goal: {{autoHighGoalCount}}</h3>
         <div class="btn-group">
           <button type="button" ng-click="decreaseAutoHighGoalCount()" class="btn btn-danger btn-lg">-</button>
           <button type="button" ng-click="increaseAutoHighGoalCount()" class="btn btn-success btn-lg">+</button>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <h3>Low Goal: {{autoLowGoalCount}}</h3>
 
         <div class="btn-group">
@@ -48,7 +79,7 @@
           <button type="button" ng-click="increaseAutoLowGoalCount()" class="btn btn-success btn-lg">+</button>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <h3>Hot Goal: {{autoHotGoalCount}}</h3>
 
         <div class="btn-group">
@@ -63,7 +94,7 @@
     <h1>Teleop</h1>
 
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <h3>Assists:  {{teleAssistCount}}</h3>
 
         <div class="btn-group">
@@ -71,7 +102,7 @@
           <button type="button" ng-click="increaseTeleAssistCount()" class="btn btn-success btn-lg">+</button>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <h3>High Goals:  {{teleHighGoalCount}}</h3>
 
         <div class="btn-group">
@@ -79,7 +110,7 @@
           <button type="button" ng-click="increaseTeleHighGoalCount()" class="btn btn-success btn-lg">+</button>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <h3>Low Goals: {{teleLowGoalCount}}</h3>
 
         <div class="btn-group">
@@ -90,7 +121,7 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-sm-6">
         <h3>Truss:  {{trussCount}}</h3>
 
         <div class="btn-group">
@@ -98,7 +129,7 @@
           <button type="button" ng-click="increaseTrussCount()" class="btn btn-success btn-lg">+</button>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-sm-6">
         <h3>Catch:  {{catchCount}}</h3>
 
         <div class="btn-group">
@@ -141,8 +172,8 @@
     <button type="button" ng-click="state='Dashboard'" class="btn btn-primary btn-lg btn-block">Back</button>
 
   </div>
-
   <div ng-show="state == 'Database'">
+
     <h1>Database</h1>
 
     <input type="text" ng-model="searchText" class="form-control">
@@ -151,12 +182,24 @@
       <tr>
         <th>Match</th>
         <th>Team</th>
-        <th>Alliance</th>
+        <th>Auto High</th>
+        <th>Auto Low</th>
+        <th>High Goal</th>
+        <th>Low Goal</th>
+        <th>Assists</th>
+        <th>Truss</th>
+        <th>Catch</th>
       </tr>
       <tr ng-repeat="databaseMatch in databaseMatches | filter:searchText">
         <td>{{databaseMatch.matchNum}}</td>
         <td>{{databaseMatch.teamNum}}</td>
-        <td>{{databaseMatch.alliance}}</td>
+        <td>{{databaseMatch.autoHighGoalCount}}</td>
+        <td>{{databaseMatch.autoLowGoalCount}}</td>
+        <td>{{databaseMatch.teleHighGoalCount}}</td>
+        <td>{{databaseMatch.teleLowGoalCount}}</td>
+        <td>{{databaseMatch.teleAssistCount}}</td>
+        <td>{{databaseMatch.trussCount}}</td>
+        <td>{{databaseMatch.catchCount}}</td>
       </tr>
     </table>
 
